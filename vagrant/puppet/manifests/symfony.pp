@@ -165,6 +165,37 @@ file_line { 'php5_cli_xdebug_max_nesting_level':
 }
 
 
+# Enable Xdebug support
+
+file_line { 'php5_apache2_xdebug_remote_enable':
+    path    => '/etc/php5/apache2/conf.d/xdebug.ini',
+    line    => 'xdebug.remote_enable = on',
+    require => [ Class['apache::mod::php'], Package['php5-xdebug'] ],
+    notify  => Service['httpd'],
+}
+
+file_line { 'php5_cli_xdebug_remote_enable':
+    path    => '/etc/php5/cli/conf.d/xdebug.ini',
+    line    => 'xdebug.remote_enable = on',
+    require => [ Class['apache::mod::php'], Package['php5-xdebug'] ],
+    notify  => Service['httpd'],
+}
+
+file_line { 'php5_apache2_xdebug_remote_connect_back':
+    path    => '/etc/php5/apache2/conf.d/xdebug.ini',
+    line    => 'xdebug.remote_connect_back = on',
+    require => [ Class['apache::mod::php'], Package['php5-xdebug'] ],
+    notify  => Service['httpd'],
+}
+
+file_line { 'php5_cli_xdebug_remote_connect_back':
+    path    => '/etc/php5/cli/conf.d/xdebug.ini',
+    line    => 'xdebug.remote_connect_back = on',
+    require => [ Class['apache::mod::php'], Package['php5-xdebug'] ],
+    notify  => Service['httpd'],
+}
+
+
 # Configure Symfony dev controllers so that the Vagrant host machine
 # at the host_ipaddress (specified in the Vagrantfile) has access
 
