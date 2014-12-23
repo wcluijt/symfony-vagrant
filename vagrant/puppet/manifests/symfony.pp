@@ -8,6 +8,7 @@ Exec['apt_update'] -> Package <| |>
 # install Apache
 class { 'apache':
     mpm_module => 'prefork',
+    sendfile   => 'Off',
 }
 class { 'apache::mod::php': }
 
