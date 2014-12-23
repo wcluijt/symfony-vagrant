@@ -28,7 +28,7 @@ class { 'git': }
 
 # install PHP Extensions used with Symfony
 class php-extensions {
-    package { ['php-apc', 'php5-intl', 'php5-xdebug']:
+    package { ['php-apc', 'php5-curl', 'php5-intl', 'php5-xdebug']:
         ensure  => present,
         require => Package['httpd'],
         notify  => Service['httpd'],
@@ -177,5 +177,5 @@ file_line { 'symfony_web_config_host_ipaddress':
 file_line { 'symfony_web_app_dev_host_ipaddress':
     path  => '/vagrant/web/app_dev.php',
     match => '::1',
-    line  => "    || !in_array(@\$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1', '${::host_ipaddress}'))",
+    line  => "    || !(in_array(@\$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1', '${::host_ipaddress}')) || php_sapi_name() === 'cli-server')",
 }
